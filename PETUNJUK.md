@@ -1,0 +1,3 @@
+backtick: `
+
+CONFIG -> MODEL -> CONTROLLER - > ROUTES -> INDEX
