@@ -32,7 +32,6 @@ const CreateNewUser = (body) => {
 // Update data
 const updateUser = (body, idUser) => {
     const SQLUpdateQuery = `UPDATE tb_admin SET username='${body.username}',password='${body.password}' WHERE id = ${idUser}`;
-
     return dbPool.execute(SQLUpdateQuery);
 }
 
@@ -42,10 +41,18 @@ const deleteUser = (idUser) => {
     return dbPool.execute(SQLDeleteQuery);
 }
 
+// Login
+const findByUsernameAndPassword = async (username, password) => {
+    const query = `SELECT id FROM tb_admin WHERE username = ? AND password = ?`;
+    const [results] = await dbPool.execute(query, [username, password]);
+    return results;
+};
+
 module.exports = {
     getById,
     GetAllAdmin,
     CreateNewUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    findByUsernameAndPassword
 }

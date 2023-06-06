@@ -105,12 +105,32 @@ const getDataById = async (req, res) => {
     }
 };
 
+// Login
+const login = async (req, res) => {
 
+    try {
+        const { username, password } = req.body;
+        const results = await UserModel.findByUsernameAndPassword(username, password);
+
+        if (results.length === 0) {
+            return res.status(401).json({ message: 'Username atau password salah' });
+        }
+
+        // Jika login berhasil
+        const user = results[0];
+        return res.status(200).json({ message: 'Login berhasil', userId: user.id });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Terjadi kesalahan server' });
+    }
+};
 
 module.exports = {
     getAllUsers,
     getDataById,
     CreateNewUser,
     updatUser,
-    deleteUser
+    deleteUser,
+    login
 }
