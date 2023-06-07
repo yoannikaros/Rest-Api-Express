@@ -5,14 +5,19 @@ const middlewareLogRequest = require('./middleware/logs');
 const multer = require('multer');
 const app = express();
 const upload = multer();
+const bodyParser = require('body-parser');
+
 app.use(express.json());
 const userRoutes = require('./routes/users')
 
 // Middleware menampilkan log
 app.use(middlewareLogRequest);
 
-// Middleware untuk mengurai form-data
+// Middleware untuk support form-data
 app.use(upload.any());
+
+// Middleware untuk support x-www-form-urlencoded (penting untuk retrofit flutter)
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Route
 app.use('/users', userRoutes);

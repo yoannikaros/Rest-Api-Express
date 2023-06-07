@@ -25,7 +25,6 @@ const getById = async (id) => {
 const CreateNewUser = (body) => {
     const SQLQueryCreate = 'INSERT INTO tb_admin (username, password) VALUES (?, ?)';
     const values = [body.username, body.password];
-
     return dbPool.execute(SQLQueryCreate, values);
 };
 
