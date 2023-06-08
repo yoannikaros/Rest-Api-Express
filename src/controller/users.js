@@ -1,5 +1,5 @@
 const UserModel = require('../models/tb_admin');
-
+const jwt = require('jsonwebtoken');
 
 // Mendapatkan data
 const getAllUsers = async (req, res) => {
@@ -107,7 +107,6 @@ const getDataById = async (req, res) => {
 
 // Login
 const login = async (req, res) => {
-
     try {
         const { username, password } = req.body;
         const results = await UserModel.findByUsernameAndPassword(username, password);
@@ -116,10 +115,11 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Username atau password salah' });
         }
 
-        // Jika login berhasil
+        // Jika login berhasil, buat token JWT
         const user = results[0];
-        return res.status(200).json({ message: 'Login berhasil', userId: user.id });
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
 
+        return res.status(200).json({ message: 'Login berhasil', token });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Terjadi kesalahan server' });
