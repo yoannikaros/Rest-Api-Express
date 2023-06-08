@@ -10,7 +10,7 @@ router.get('/', authenticateToken, UserController.getAllUsers);
 // GET ID DATA
 router.get('/:id', authenticateToken, UserController.getDataById);
 
-// SEND DATA
+// Create DATA
 router.post('/', authenticateToken, UserController.CreateNewUser);
 
 // UPDATE DATA
